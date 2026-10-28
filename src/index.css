@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #05070f;
+  --color-ink-2: #0a0f24;
+  --color-fg: #eef1fb;
+  --color-fg-muted: #9aa5c7;
+  --color-fg-faint: #5d6890;
+  --color-electric: #4cc9ff;
+  --color-blue: #3d8bff;
+  --color-violet: #a78bfa;
+  --color-purple: #8b5cf6;
+
+  --font-sans: "Sora", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+}
+
+/* Minimal document defaults only; section styles stay local to components. */
+@layer base {
+  html {
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    margin: 0;
+    background-color: var(--color-ink);
+    overflow-x: clip;
+  }
+  ::selection {
+    background: rgb(76 201 255 / 0.3);
+    color: #fff;
+  }
+}
+
+/* ---- Hero ------------------------------------------------------------- */
+
+.hero-journey {
+  height: calc(100vh + var(--hero-scroll) * 1vh);
+  height: calc(100svh + var(--hero-scroll) * 1svh);
+}
+
+/* Where the 3D scene sits: above the copy on portrait, right of it on desktop. */
+.hero-stage {
+  --hero-focus-x: 50%;
+  --hero-focus-y: 27%;
+}
+@media (min-width: 1024px) {
+  .hero-stage {
+    --hero-focus-x: 67%;
+    --hero-focus-y: 48%;
+  }
+}
+
+.hero-backdrop {
+  background:
+    radial-gradient(70% 65% at var(--hero-focus-x, 66%) var(--hero-focus-y, 46%), #0e1638 0%, rgb(9 13 32 / 0.6) 45%, transparent 75%),
+    linear-gradient(180deg, #05070f 0%, #070a18 55%, #05070f 100%);
+}
+.hero-wash-blue {
+  background: radial-gradient(40% 45% at var(--hero-focus-x, 66%) var(--hero-focus-y, 46%), rgb(61 139 255 / 0.2), transparent 70%);
+}
+.hero-wash-violet {
+  background:
+    radial-gradient(45% 50% at calc(var(--hero-focus-x, 66%) - 6%) calc(var(--hero-focus-y, 46%) + 22%), rgb(139 92 246 / 0.26), transparent 70%),
+    radial-gradient(30% 35% at calc(var(--hero-focus-x, 66%) + 18%) calc(var(--hero-focus-y, 46%) - 26%), rgb(192 132 252 / 0.14), transparent 70%);
+}
+.hero-vignette {
+  background: radial-gradient(120% 100% at 50% 50%, transparent 55%, rgb(3 4 10 / 0.75) 100%);
+}
+/* Readability scrim behind the copy: from the bottom on portrait, from the left on desktop. */
+.hero-scrim {
+  background: linear-gradient(0deg, rgb(5 7 15 / 0.94) 0%, rgb(5 7 15 / 0.72) 42%, rgb(5 7 15 / 0) 68%);
+}
+@media (min-width: 1024px) {
+  .hero-scrim {
+    background: linear-gradient(90deg, rgb(5 7 15 / 0.88) 0%, rgb(5 7 15 / 0.62) 30%, rgb(5 7 15 / 0) 56%);
+  }
+}
+
+.hero-accent {
+  background: linear-gradient(95deg, #7dd3fc 0%, #4cc9ff 30%, #a78bfa 75%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes hero-scroll-dot {
+  0% { transform: translateY(-100%); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(260%); opacity: 0; }
+}
+.hero-scroll-dot {
+  animation: hero-scroll-dot 2.2s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+}
+@keyframes hero-loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+.hero-loading-bar {
+  animation: hero-loading 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-dot,
+  .hero-loading-bar {
+    animation: none;
+  }
+}
